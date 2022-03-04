@@ -84,5 +84,12 @@ export async function transferTokens(address, amount){
   }
   catch (err){
     console.error(`Failed to transfer ${amount} tokens to ${address} : ${err}`);
+    return {
+      result: {
+        returnType : "error",
+        errorMessage : String(err)
+      }
+
+    }
   }
 }

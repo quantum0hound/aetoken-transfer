@@ -1,18 +1,19 @@
 export const COMPILER_URL = 'https://compiler.aepps.com'
 
 export const NETWORKS = [
-  // {
-  //   type: 'ae_mainnet',
-  //   name: 'mainnet',
-  //   url: 'https://mainnet.aeternity.io'
-  // },
+  {
+    type: 'ae_mainnet',
+    name: 'mainnet',
+    url: 'https://mainnet.aeternity.io'
+  },
   {
     type: 'ae_uat',
     name: 'testnet',
     url: 'https://testnet.aeternity.io'
   }
 ]
-export const CONTRACT_ADDRESS="ct_2nSffTvDnenBa1h3TV3oPyQV8yGnVgoehM3zGf8JtKDGgG21Eb";
+//export const CONTRACT_ADDRESS="ct_2nSffTvDnenBa1h3TV3oPyQV8yGnVgoehM3zGf8JtKDGgG21Eb";
+export const CONTRACT_ADDRESS="ct_BX8hjuPqVcRV9fkQfbWw8JHAw9KXM1ERZRUu8CAWShCaCP7jp"; //mainnet
 export const CONTRACT_SOURCE = `
 //
 // Copyright (c) 2017, aeternity developers

@@ -49,8 +49,8 @@ export const aeInitWallet = async () => {
           aeFetchWalletInfo(sdk.value)
         }
       })
-      walletStatus.value = 'connected'
-      await aeScanForWallets()
+      walletStatus.value = 'connected';
+      await aeScanForWallets();
 
   } catch (error) {
     console.info('aeInitWallet . error: ', error)
