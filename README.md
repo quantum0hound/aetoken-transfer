@@ -1,4 +1,4 @@
-# AeTokenTransfer (qaetoken-transfer)
+# AeTokenTransfer (aetoken-transfer)
 
 A Quasar Framework app
 

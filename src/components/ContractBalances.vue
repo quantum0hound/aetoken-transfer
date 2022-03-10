@@ -28,7 +28,6 @@ import {toRefs} from "vue";
 import {aeContract} from "../utils/aeternity"
 export default {
   name: "ContractBalances",
-
   setup () {
     const {
       balances,
@@ -40,6 +39,9 @@ export default {
       address
     };
   },
+  methods:{
+
+  }
 }
 
 </script>
