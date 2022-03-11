@@ -9,9 +9,11 @@
 /* eslint-env node */
 const ESLintPlugin = require("eslint-webpack-plugin");
 const { configure } = require("quasar/wrappers");
+const CircularDependencyPlugin = require('circular-dependency-plugin')
 
 module.exports = configure(function (ctx) {
   return {
+
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: false,
 
@@ -44,29 +46,64 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: "hash", // available values: 'hash', 'history'
 
-      // transpile: false,
-      // publicPath: '/',
+      transpile: true,
+      //publicPath: '/',
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
       // Applies only if "transpile" is set to true.
-      // transpileDependencies: [],
+      transpileDependencies: [
+        '@aeternity'
+      ],
 
       // rtl: true, // https://quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
       // gzip: true,
-      // analyze: true,
+      //analyze: true,
 
       // Options below are automatically set depending on the env, set them if you want to override
       // extractCSS: false,
+
+      configureWebpack:{
+        plugins: [
+          new CircularDependencyPlugin({
+            // exclude detection of files based on a RegExp
+            //exclude: /a\.js|node_modules/,
+            // include specific files based on a RegExp
+            include: /@aeternity/,
+            // add errors to webpack instead of warnings
+            failOnError: true,
+            // allow import cycles that include an asyncronous import,
+            // e.g. via import(/* webpackMode: "weak" */ './file.js')
+            allowAsyncCycles: false,
+            // set the current working directory for displaying module paths
+            cwd: process.cwd(),
+          })
+          ]
+      },
 
       // https://quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
       chainWebpack(chain) {
         chain
           .plugin("eslint-webpack-plugin")
-          .use(ESLintPlugin, [{ extensions: ["js", "vue"] }]);
+          .use(ESLintPlugin, [{ extensions: ["js", "vue"] }])
+
+          // .plugin("circular-dependency-plugin")
+          // .use(CircularDependencyPlugin,{
+          //   // exclude detection of files based on a RegExp
+          //   exclude: /a\.js|node_modules/,
+          //   // include specific files based on a RegExp
+          //   include: /@aeternity/,
+          //   // add errors to webpack instead of warnings
+          //   failOnError: true,
+          //   // allow import cycles that include an asyncronous import,
+          //   // e.g. via import(/* webpackMode: "weak" */ './file.js')
+          //   allowAsyncCycles: false,
+          //   // set the current working directory for displaying module paths
+          //   cwd: process.cwd()
+          // });
       },
     },
 
@@ -205,7 +242,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: "qaetoken-transfer",
+        appId: "aetoken-transfer",
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
