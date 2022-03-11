@@ -21,6 +21,7 @@ export const aeWallet = reactive({
 })
 
 export const aeInitWallet = async () => {
+  console.log("Initializing wallet...");
   const { sdk, walletStatus } = toRefs(aeWallet)
 
   const nodes = []
@@ -41,10 +42,12 @@ export const aeInitWallet = async () => {
         nodes,
         compilerUrl: COMPILER_URL,
         onNetworkChange (params) {
+          console.log("Changing network");
           this.selectNode(params.networkId)
           aeFetchWalletInfo(sdk.value)
         },
         onAddressChange (addresses) {
+          console.log("Changing address");
           console.info('onAddressChange :: ', addresses)
           aeFetchWalletInfo(sdk.value)
         }
@@ -71,8 +74,10 @@ export const aeScanForWallets = async () => {
   const detector = await WalletDetector({ connection: scannerConnection })
 
   const handleWallets = async function ({ newWallet }) {
-    detector.stopScan()
-    if (!sdk.value) return
+    detector.stopScan();
+    if (!sdk.value){
+      return;
+    }
 
     activeWallet.value = newWallet
 
@@ -80,7 +85,7 @@ export const aeScanForWallets = async () => {
       await newWallet.getConnection()
     )
     sdk.value.selectNode(connected.networkId) // connected.networkId needs to be defined as node in RpcAepp
-    await sdk.value.subscribeAddress('subscribe', 'current')
+    await sdk.value.subscribeAddress('subscribe', 'current');
 
     await aeFetchWalletInfo(sdk.value)
   }

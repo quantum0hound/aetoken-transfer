@@ -29,6 +29,7 @@ export async function initContract(){
   }
   catch (err){
     console.error(`Failed to get contract ${aeContract.address} instance : ${err}`);
+    return;
   }
 
   try{
@@ -51,6 +52,7 @@ export async function initContract(){
   }
   catch (err){
     console.error(`Failed to get contract ${aeContract.address} info : ${err}`);
+    return;
   }
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "qaetoken-transfer",
+  "name": "aetoken-transfer",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
   "productName": "AeTokenTransfer",
@@ -12,11 +12,17 @@
   },
   "module": "es6",
   "dependencies": {
-    "@aeternity/aepp-sdk": "github:aeternity/aepp-sdk-js#develop",
+    "@aeternity/aepp-sdk": "^10.0.0",
     "@quasar/extras": "^1.0.0",
     "circular-dependency-plugin": "^5.2.2",
     "core-js": "^3.6.5",
+    "crypto": "^1.0.1",
+    "install": "^0.13.0",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "npm": "^8.5.4",
+    "path": "^0.12.7",
     "quasar": "^2.0.0",
+    "stream": "^0.0.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
   },
