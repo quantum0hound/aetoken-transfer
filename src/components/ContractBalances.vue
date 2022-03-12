@@ -1,11 +1,7 @@
 <template>
-  <div v-if="balances" class="q-ma-sm shadow-3">
-    <q-toolbar class="bg-primary text-white q-ma-none" >
-      <q-toolbar-title>Contract balances</q-toolbar-title>
-    </q-toolbar>
+  <div v-if="balances">
     <q-markup-table flat bordered separator="cell" dense>
       <thead>
-      <tr><th colspan="2">Contract address: {{ address }}</th></tr>
       <tr>
         <th>Address</th>
         <th>Tokens count</th>

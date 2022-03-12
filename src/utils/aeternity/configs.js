@@ -1,5 +1,6 @@
 export const COMPILER_URL = 'https://compiler.aepps.com'
 
+export const MDW_SERVER = "https://mainnet.aeternity.io/mdw/";
 export const NETWORKS = [
   {
     type: 'ae_mainnet',

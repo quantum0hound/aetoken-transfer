@@ -1,4 +1,4 @@
-import { CONTRACT_ADDRESS, CONTRACT_SOURCE } from './configs'
+import { CONTRACT_ADDRESS, CONTRACT_SOURCE ,MDW_SERVER} from './configs'
 import {aeWallet} from "./wallet";
 import {reactive} from "vue";
 
@@ -57,6 +57,9 @@ export async function initContract(){
 }
 
 export async function getBalance(address){
+  if(!aeContract.instance){
+    console.log(`Contract instance is not initialized...`);
+  }
   try {
     console.log(`Getting contract balance for ${address}...`);
     let res = await aeContract.instance.call("balance",[address],{callStatic : true});
@@ -69,6 +72,9 @@ export async function getBalance(address){
 }
 
 export async function getBalances(){
+  if(!aeContract.instance){
+    console.log(`Contract instance is not initialized...`);
+  }
   try {
     console.log(`Getting contract ${aeContract.address} balances...`);
     let res = await aeContract.instance.call("balances",[],{callStatic : true});
@@ -80,6 +86,9 @@ export async function getBalances(){
 }
 
 export async function transferTokens(address, amount){
+  if(!aeContract.instance){
+    console.log(`Contract instance is not initialized...`);
+  }
   try {
     console.log(`Sending ${amount} tokens to ${address}...`);
     return await aeContract.instance.call("transfer",[address, amount]);
@@ -93,5 +102,31 @@ export async function transferTokens(address, amount){
       }
 
     }
+  }
+}
+
+
+export async function getCalls(){
+  if(!aeContract.instance){
+    console.log(`Contract instance is not initialized...`);
+  }
+  try {
+    console.log(`Getting contract ${aeContract.address} calls...`);
+    fetch(`${MDW_SERVER}txs/forward?type=contract_call&contract=${aeContract.address}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        let txs = data.data;
+        console.log(txs);
+        for (const entry of txs) {
+          let tx = entry.tx;
+
+        }
+      });
+
+  }
+  catch (err){
+    console.error(`Failed to get calls for contract : ${err}`);
   }
 }

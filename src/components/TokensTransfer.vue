@@ -1,14 +1,7 @@
 <template>
-  <div v-if="instance" class="q-ma-sm shadow-3">
-    <q-toolbar class="bg-primary text-white q-ma-none">
-      <q-toolbar-title>
-        Transfer tokens
-      </q-toolbar-title>
-    </q-toolbar>
+  <div v-if="instance">
     <q-form @submit="transfer(transferTo,transferAmount)" class="q-pa-sm" >
-
         <q-input
-          class="q-pt-xs"
           dense
           filled
           v-model="transferTo"
@@ -42,7 +35,7 @@
 <script>
 import {toRefs,ref} from "vue";
 import QTransferResultDialog from "components/QTransferResultDialog";
-import {aeContract, aeWallet, transferTokens, getBalances, getBalance} from "../utils/aeternity";
+import {aeContract, aeWallet, transferTokens, getBalances, getBalance, getCalls} from "../utils/aeternity";
 
 export default {
   name: "TokensTransfer",
@@ -78,6 +71,7 @@ export default {
       if (this.instance) {
         getBalances();
         getBalance(this.address).then(b => this.balance = b);
+        getCalls()
       }
     }, 5000);
   },

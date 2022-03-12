@@ -53,6 +53,7 @@ export default defineComponent({
 
     const tokenBalance = toRef(aeContract,"balance");
 
+
     return { activeWallet, address, balance, walletStatus, symbol,balances,tokenBalance };
   },
   watch:{
