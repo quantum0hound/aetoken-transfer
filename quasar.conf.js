@@ -57,6 +57,7 @@ module.exports = configure(function (ctx) {
         '@aeternity'
       ],
 
+
       chainWebpack(chain) {
         chain
           .plugin("eslint-webpack-plugin")
@@ -64,6 +65,19 @@ module.exports = configure(function (ctx) {
         chain
           .plugin("node-polyfill-webpack-plugin")
           .use(NodePolyfillPlugin);
+        // chain
+        //     .plugin()
+        //     .use(
+        //         CircularDependencyPlugin,
+        //         [{
+        //           include: /@aeternity/,
+        //           failOnError: true,
+        //           allowAsyncCycles: false,
+        //           cwd: process.cwd()
+        //         }]
+        //     );
+
+
       },
     },
 
@@ -78,7 +92,14 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      config: {},
+      config: {
+        loading: {
+          delay : 100,
+          spinnerSize : 100,
+          spinnerColor : "primary",
+          message : "Fetching data from aeternity node..."
+        }
+      },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -91,7 +112,10 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ["Dialog"],
+      plugins: [
+        "Dialog",
+        "Loading"
+      ],
     },
 
     // animations: 'all', // --- includes all animations

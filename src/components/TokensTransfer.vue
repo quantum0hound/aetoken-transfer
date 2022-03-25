@@ -66,20 +66,15 @@ export default {
     };
   },
 
-  mounted() {
-    setInterval(() => {
-      if (this.instance) {
-        getBalances();
-        getBalance(this.address).then(b => this.balance = b);
-        getCalls()
-      }
-    }, 5000);
-  },
   methods: {
     async transfer(to, amount) {
       let dialogProps = {
       };
       try{
+        this.$q.loading.show({
+            message: `Sending ${amount} MTOK to ${to}`
+          }
+        );
         let response = await transferTokens(to, amount);
         dialogProps = {
           result: response.result.returnType,
@@ -95,8 +90,10 @@ export default {
           dialogProps.result= "error";
           dialogProps.errorMessage= "Failed to perform transaction";
         }
+        this.$q.loading.hide();
       }
       catch (err){
+        this.$q.loading.hide();
         dialogProps.result= "error";
         dialogProps.errorMessage= err;
       }

@@ -10,10 +10,10 @@
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0"
   },
-  "module": "es6",
   "dependencies": {
-    "@aeternity/aepp-sdk": "github:aeternity/aepp-sdk-js#develop",
+    "@aeternity/aepp-sdk": "^11.0.0",
     "@quasar/extras": "^1.0.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
     "circular-dependency-plugin": "^5.2.2",
     "core-js": "^3.6.5",
     "crypto": "^1.0.1",

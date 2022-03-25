@@ -11,7 +11,8 @@ export const aeContract = reactive({
   owner : "",
   totalSupply: 0,
   balances : null,
-  balance : 0
+  balance : 0,
+  calls : [],
 })
 
 export async function initContract(){
@@ -105,7 +106,6 @@ export async function transferTokens(address, amount){
   }
 }
 
-
 export async function getCalls(){
   if(!aeContract.instance){
     console.log(`Contract instance is not initialized...`);
@@ -118,9 +118,23 @@ export async function getCalls(){
       })
       .then((data) => {
         let txs = data.data;
-        console.log(txs);
+        aeContract.calls=[];
         for (const entry of txs) {
           let tx = entry.tx;
+          if(tx.function!=="transfer"){
+            continue;
+          }
+          let datetime =new Date(entry.micro_time).toISOString();
+          console.log(entry.micro_time);
+
+          let call = {
+            datetime : datetime,
+            sender: tx.caller_id,
+            recipient : tx.arguments[0].value,
+            amount : Number(tx.arguments[1].value)
+          }
+
+          aeContract.calls.push(call);
 
         }
       });

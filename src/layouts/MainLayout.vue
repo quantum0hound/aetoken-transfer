@@ -1,109 +1,113 @@
 <template>
   <div class="q-pa-md">
+
     <q-toolbar class="bg-primary text-white shadow-2">
       <q-tabs v-model="tab" shrink indicator-color="black">
+        <q-tab name="transfer-tokens" icon="sync_alt" label="Transfer tokens" />
         <q-tab name="contract-balances" icon="account_balance_wallet" label="Contract balances" />
         <q-tab name="contract-operations" icon="view_list" label="Contract operations" />
-        <q-tab name="transfer-tokens" icon="sync_alt" label="Transfer tokens" />
+
       </q-tabs>
       <q-space />
-      <q-btn flat label="Homepage" />
+      <WalletInfo/>
+
     </q-toolbar>
-    <div class="row">
-      <div class="col-6">
+
+    <div class="row q-mt-md">
+      <div class="col">
         <q-tab-panels
           v-model="tab"
           animated
-          swipeable
-          vertical
           transition-prev="jump-up"
           transition-next="jump-up"
         >
           <q-tab-panel name="contract-balances">
-            <ContractBalances/>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col-6">
+                <ContractBalances/>
+              </div>
+              <div class="col"></div>
+            </div>
           </q-tab-panel>
 
           <q-tab-panel name="transfer-tokens">
-            <TokensTransfer/>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col-6">
+                <TokensTransfer/>
+              </div>
+              <div class="col"></div>
+            </div>
+
           </q-tab-panel>
 
           <q-tab-panel name="contract-operations">
-            <WalletInfo/>
+            <div class="row">
+              <div class="col">
+                <ContractOperations/>
+              </div>
+            </div>
           </q-tab-panel>
         </q-tab-panels>
       </div>
+
     </div>
 
   </div>
-
-
-<!--  <div class="container main">-->
-<!--    <div class="row">-->
-<!--      <div class="col">-->
-<!--        <q-splitter-->
-<!--          v-model="splitterModel"-->
-<!--        >-->
-
-<!--          <template v-slot:before>-->
-<!--            <q-tabs-->
-<!--              v-model="tab"-->
-<!--              vertical-->
-<!--              class="text-blue"-->
-<!--            >-->
-<!--              <q-tab name="contract-balances" icon="account_balance_wallet" label="Contract balances" />-->
-<!--              <q-tab name="contract-operations" icon="view_list" label="Contract operations" />-->
-<!--              <q-tab name="transfer-tokens" icon="sync_alt" label="Transfer tokens" />-->
-
-<!--            </q-tabs>-->
-<!--          </template>-->
-
-<!--          <template v-slot:after>-->
-<!--            <q-tab-panels-->
-<!--              v-model="tab"-->
-<!--              animated-->
-<!--              swipeable-->
-<!--              vertical-->
-<!--              transition-prev="jump-up"-->
-<!--              transition-next="jump-up"-->
-<!--            >-->
-<!--              <q-tab-panel name="contract-balances">-->
-<!--                <ContractBalances/>-->
-<!--              </q-tab-panel>-->
-
-<!--              <q-tab-panel name="transfer-tokens">-->
-<!--                <TokensTransfer/>-->
-<!--              </q-tab-panel>-->
-
-<!--              <q-tab-panel name="contract-operations">-->
-<!--                <WalletInfo/>-->
-<!--              </q-tab-panel>-->
-<!--            </q-tab-panels>-->
-<!--          </template>-->
-
-<!--        </q-splitter>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
 </template>
 
 <script>
-import { defineComponent, onMounted ,ref} from 'vue'
-import {aeInitWallet, initContract} from '../utils/aeternity'
+import {defineComponent, onMounted, ref, toRefs,toRef} from 'vue'
+import {aeContract,aeWallet, aeInitWallet, getBalance, getBalances, getCalls, initContract} from '../utils/aeternity'
 import WalletInfo from "../components/WalletInfo";
 import TokensTransfer from "../components/TokensTransfer";
 import ContractBalances from "components/ContractBalances";
+import ContractOperations from "components/ContractOperations";
 
 export default defineComponent({
   name: 'MainLayout',
-  components: {ContractBalances, TokensTransfer, WalletInfo},
+  components: {ContractOperations, ContractBalances, TokensTransfer, WalletInfo},
+
+  async mounted(){
+    this.$q.loading.show();
+
+    await aeInitWallet();
+    await initContract();
+    await getBalances();
+    await getCalls();
+    this.balance = await getBalance(this.address);
+    this.$q.loading.hide();
+
+
+    setInterval(async () => {
+      if (this.instance) {
+
+        this.balance = await getBalance(this.address);
+
+        if(this.tab==="contract-balances"){
+          await getBalances();
+        }
+
+        if(this.tab==="contract-operations"){
+          await getCalls();
+        }
+
+      }
+    }, 5000);
+  },
+
   setup () {
-    onMounted(async () => {
-      await aeInitWallet();
-      await initContract();
-    })
+    const {
+      instance,
+      balance,
+    } = toRefs(aeContract);
 
     return{
-      tab: ref('contract-balances'),
+      tab: ref('transfer-tokens'),
+      address : toRef(aeWallet,"address"),
+      instance,
+      balance
     }
   }
 })
