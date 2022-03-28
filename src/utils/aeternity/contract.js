@@ -124,7 +124,7 @@ export async function getCalls(){
           if(tx.function!=="transfer"){
             continue;
           }
-          let datetime =new Date(entry.micro_time).toISOString();
+          let datetime =new Date(entry.micro_time).toLocaleString();
           console.log(entry.micro_time);
 
           let call = {

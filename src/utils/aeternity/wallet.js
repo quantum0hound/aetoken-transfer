@@ -1,11 +1,9 @@
 import {
-  RpcAepp,
   Node,
+  RpcAepp,
   BrowserWindowMessageConnection,
   WalletDetector,
   AmountFormatter,
-  Universal,
-  MemoryAccount
 } from '@aeternity/aepp-sdk'
 
 import { reactive, toRefs } from 'vue'

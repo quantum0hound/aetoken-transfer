@@ -34,7 +34,7 @@
 
 <script>
 import {toRefs,ref} from "vue";
-import QTransferResultDialog from "components/QTransferResultDialog";
+import QTransferResultDialog from "./QTransferResultDialog";
 import {aeContract, aeWallet, transferTokens, getBalances, getBalance, getCalls} from "../utils/aeternity";
 
 export default {

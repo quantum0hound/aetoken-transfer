@@ -62,8 +62,8 @@ import {defineComponent, onMounted, ref, toRefs,toRef} from 'vue'
 import {aeContract,aeWallet, aeInitWallet, getBalance, getBalances, getCalls, initContract} from '../utils/aeternity'
 import WalletInfo from "../components/WalletInfo";
 import TokensTransfer from "../components/TokensTransfer";
-import ContractBalances from "components/ContractBalances";
-import ContractOperations from "components/ContractOperations";
+import ContractBalances from "../components/ContractBalances";
+import ContractOperations from "../components/ContractOperations";
 
 export default defineComponent({
   name: 'MainLayout',
